@@ -1,0 +1,50 @@
+{
+  "name": "openclip-pro",
+  "version": "1.0.0",
+  "description": "AI-powered video clipping application with adaptive UI",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "backend": "cd backend && python -m uvicorn main:app --reload --port 8000",
+    "start": "concurrently \"npm run backend\" \"npm run dev\""
+  },
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.7",
+    "@ffmpeg/util": "^0.12.1",
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "axios": "^1.5.0",
+    "clsx": "^2.0.0",
+    "framer-motion": "^10.16.4",
+    "lucide-react": "^0.263.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-hot-toast": "^2.4.1",
+    "react-player": "^2.13.0",
+    "react-router-dom": "^6.15.0",
+    "tailwind-merge": "^1.14.0",
+    "uuid": "^11.1.0",
+    "zustand": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.2.0",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.4.5"
+  },
+  "keywords": [
+    "video",
+    "ai",
+    "clipping",
+    "content-creation"
+  ],
+  "author": "OpenClip Pro Team",
+  "license": "MIT"
+}
