@@ -244,8 +244,8 @@ backend/
 #### Running Tests
 ```bash
 cd backend
-pytest tests/ -v
-pytest tests/ --cov=. --cov-report=html
+pytest -v
+pytest --cov=. --cov-report=html
 ```
 
 ### Frontend Development
@@ -276,7 +276,6 @@ frontend/src/
 ```bash
 cd frontend
 npm test
-npm run test:coverage
 ```
 
 ## 📊 Performance
@@ -400,6 +399,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 3. Make your changes
 4. Add tests for new functionality
 5. Ensure all tests pass
+   - `cd backend && pytest`
+   - `cd .. && npm test`
 6. Submit a pull request
 
 ### Code Style
