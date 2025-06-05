@@ -23,8 +23,8 @@ const Layout = ({ children }) => {
         appSettings?.theme === 'dark' ? 'dark' : ''
       }`}>
         <Header onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      
         <main className="lg:pl-80 pt-16 min-h-screen">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -32,11 +32,11 @@ const Layout = ({ children }) => {
             transition={{ duration: 0.3 }}
             className="p-6"
           >
-            {children}
+          {children}
           </motion.div>
         </main>
         
-        <BackendStatus />
+          <BackendStatus />
       </div>
     </LivingUI>
   )

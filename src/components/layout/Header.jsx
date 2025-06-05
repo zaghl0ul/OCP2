@@ -60,7 +60,7 @@ const Header = ({ onMenuClick }) => {
               onClick={onMenuClick}
               className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-colors"
             >
-              <MenuIcon className="w-5 h-5" />
+                <MenuIcon className="w-5 h-5" />
             </button>
             
             {/* Logo */}
@@ -163,38 +163,38 @@ const Header = ({ onMenuClick }) => {
             
             {/* Desktop actions */}
             <div className="hidden lg:flex items-center gap-2">
-              {/* Notifications */}
+            {/* Notifications */}
+            <button
+              className="p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-colors relative"
+              onClick={createAdaptiveClickHandler('notifications', 'utility')}
+            >
+              <BellIcon className="w-5 h-5" />
+              {/* Notification badge */}
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></span>
+            </button>
+            
+            {/* Settings */}
+            <Link
+              to="/settings"
+              className="p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-colors"
+              onClick={createAdaptiveClickHandler('settings', 'navigation')}
+            >
+              <SettingsIcon className="w-5 h-5" />
+            </Link>
+            
+            {/* User Menu */}
+            <div className="relative">
               <button
-                className="p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-colors relative"
-                onClick={createAdaptiveClickHandler('notifications', 'utility')}
+                className="flex items-center gap-2 p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-colors"
+                onClick={createAdaptiveClickHandler('user-menu', 'utility')}
               >
-                <BellIcon className="w-5 h-5" />
-                {/* Notification badge */}
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></span>
+                <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center">
+                  <UserIcon className="w-4 h-4 text-white" />
+                </div>
+                <span className="hidden sm:block text-sm font-medium text-gray-300">
+                  Creator
+                </span>
               </button>
-              
-              {/* Settings */}
-              <Link
-                to="/settings"
-                className="p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-colors"
-                onClick={createAdaptiveClickHandler('settings', 'navigation')}
-              >
-                <SettingsIcon className="w-5 h-5" />
-              </Link>
-              
-              {/* User Menu */}
-              <div className="relative">
-                <button
-                  className="flex items-center gap-2 p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-colors"
-                  onClick={createAdaptiveClickHandler('user-menu', 'utility')}
-                >
-                  <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center">
-                    <UserIcon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="hidden sm:block text-sm font-medium text-gray-300">
-                    Creator
-                  </span>
-                </button>
               </div>
             </div>
           </div>

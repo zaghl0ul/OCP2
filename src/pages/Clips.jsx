@@ -43,15 +43,15 @@ const Clips = () => {
   const loadClips = async () => {
     try {
       setLoading(true);
-      // Get all clips from all projects
+  // Get all clips from all projects
       const allClips = [];
       for (const project of projects) {
         if (project.clips && project.clips.length > 0) {
           const projectClips = project.clips.map(clip => ({
-            ...clip,
+      ...clip,
             projectName: project.name,
             projectId: project.id
-          }));
+    }));
           allClips.push(...projectClips);
         }
       }
@@ -323,8 +323,8 @@ const Clips = () => {
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <h3 className="font-semibold text-gray-900 dark:text-white">
-                {clip.name || 'Untitled Clip'}
-              </h3>
+              {clip.name || 'Untitled Clip'}
+            </h3>
               {clip.score && (
                 <div className="flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs rounded">
                   <Star className="w-3 h-3" />
@@ -387,14 +387,14 @@ const Clips = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             All Clips
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
             Manage and organize all your video clips in one place
           </p>
         </div>
-
+        
         {/* Controls */}
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6">
           <div className="flex flex-col lg:flex-row lg:items-center gap-4">
@@ -402,40 +402,40 @@ const Clips = () => {
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search clips..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+            <input
+              type="text"
+              placeholder="Search clips..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                />
+            />
               </div>
-            </div>
-
+          </div>
+          
             {/* Filters and Sort */}
             <div className="flex items-center gap-2">
-              <select
-                value={filterBy}
-                onChange={(e) => setFilterBy(e.target.value)}
+            <select
+              value={filterBy}
+              onChange={(e) => setFilterBy(e.target.value)}
                 className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-              >
-                <option value="all">All Clips</option>
+            >
+              <option value="all">All Clips</option>
                 <option value="high-score">High Score (80+)</option>
                 <option value="recent">Recent (7 days)</option>
-              </select>
-
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+            </select>
+            
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
                 className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-              >
-                <option value="created">Date Created</option>
-                <option value="name">Name</option>
-                <option value="duration">Duration</option>
+            >
+              <option value="created">Date Created</option>
+              <option value="name">Name</option>
+              <option value="duration">Duration</option>
                 <option value="score">Score</option>
                 <option value="project">Project</option>
-              </select>
-
+            </select>
+            
               <button
                 onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}
                 className="p-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
@@ -450,19 +450,19 @@ const Clips = () => {
                     ? 'bg-blue-500 text-white' 
                     : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
-                >
-                  <Grid className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
+              >
+                <Grid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
                   className={`p-2 transition-colors ${viewMode === 'list' 
                     ? 'bg-blue-500 text-white' 
                     : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
-                >
-                  <List className="w-4 h-4" />
-                </button>
-              </div>
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
             </div>
           </div>
         </div>
@@ -495,7 +495,7 @@ const Clips = () => {
             </p>
           </div>
         </div>
-
+        
         {/* Clips Grid/List */}
         {filteredAndSortedClips.length === 0 ? (
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-12 text-center">
@@ -524,8 +524,8 @@ const Clips = () => {
                   <ClipCard key={clip.id} clip={clip} />
                 ))}
               </motion.div>
-            ) : (
-              <motion.div
+        ) : (
+          <motion.div
                 key="list"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -534,10 +534,10 @@ const Clips = () => {
               >
                 {filteredAndSortedClips.map((clip) => (
                   <ClipListItem key={clip.id} clip={clip} />
-                ))}
+              ))}
               </motion.div>
             )}
-          </AnimatePresence>
+            </AnimatePresence>
         )}
       </div>
     </div>

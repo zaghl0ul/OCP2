@@ -451,21 +451,21 @@ const SidebarContent = ({
               className="space-y-2"
             >
               {recentProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  custom={index}
-                  variants={itemVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  <Link
-                    to={`/projects/${project.id}`}
-                    onClick={() => {
-                      createAdaptiveClickHandler(`recent-project-${project.id}`, 'navigation')()
-                      onClose()
-                    }}
-                    className="group flex items-center gap-3 px-4 py-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-all duration-200"
+                  <motion.div
+                    key={project.id}
+                    custom={index}
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate="visible"
                   >
+                    <Link
+                    to={`/projects/${project.id}`}
+                      onClick={() => {
+                        createAdaptiveClickHandler(`recent-project-${project.id}`, 'navigation')()
+                        onClose()
+                      }}
+                    className="group flex items-center gap-3 px-4 py-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-all duration-200"
+                    >
                     <div className={`w-2 h-2 rounded-full ${
                       project.status === 'completed' ? 'bg-green-500' :
                       project.status === 'processing' ? 'bg-yellow-500' :
@@ -476,8 +476,8 @@ const SidebarContent = ({
                       <div className="text-sm font-medium truncate">{project.name}</div>
                       <div className="text-xs opacity-75">{project.clips} clips</div>
                     </div>
-                  </Link>
-                </motion.div>
+                    </Link>
+                  </motion.div>
               ))}
             </motion.div>
           )}
@@ -511,15 +511,15 @@ const SidebarContent = ({
               <div className="bg-gray-800/50 rounded-lg p-3 text-center">
                 <div className="text-lg font-bold text-white">{stats.totalProjects}</div>
                 <div className="text-xs text-gray-400">Projects</div>
-              </div>
+                </div>
               <div className="bg-gray-800/50 rounded-lg p-3 text-center">
                 <div className="text-lg font-bold text-white">{stats.totalClips}</div>
                 <div className="text-xs text-gray-400">Clips</div>
-              </div>
+                </div>
               <div className="bg-gray-800/50 rounded-lg p-3 text-center">
                 <div className="text-lg font-bold text-green-400">{stats.completedProjects}</div>
                 <div className="text-xs text-gray-400">Completed</div>
-              </div>
+                </div>
               <div className="bg-gray-800/50 rounded-lg p-3 text-center">
                 <div className="text-lg font-bold text-yellow-400">{stats.processingProjects}</div>
                 <div className="text-xs text-gray-400">Processing</div>

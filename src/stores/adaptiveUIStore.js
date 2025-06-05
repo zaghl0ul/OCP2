@@ -378,7 +378,7 @@ const useAdaptiveUIStore = create(
           personality: {
             ...state.personality,
             mood: focusMode ? 'focused' : 'friendly',
-          },
+            },
         }))
       },
       

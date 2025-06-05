@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
+import { 
   VideoIcon,
-  PlayIcon,
+  PlayIcon, 
   CalendarIcon,
   MoreVerticalIcon,
   EditIcon,

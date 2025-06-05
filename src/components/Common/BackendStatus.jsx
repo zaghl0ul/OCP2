@@ -72,7 +72,7 @@ const BackendStatus = () => {
             onClick={checkBackendStatus}
             className="mt-3 w-full py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs transition-colors"
           >
-            Refresh Status
+                Refresh Status
           </button>
         </div>
       )}
