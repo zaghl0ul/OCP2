@@ -6,7 +6,6 @@ from typing import List, Optional, Dict, Any
 import uvicorn
 import os
 import json
-import asyncio
 import logging
 from datetime import datetime
 import uuid
@@ -21,6 +20,8 @@ from models.repositories import ProjectRepository, ClipRepository, SettingsRepos
 from services.video_processor import VideoProcessor
 from services.ai_analyzer import AIAnalyzer
 from services.api_manager import APIManager
+from tasks import process_youtube_url_task, analyze_video_task
+from celery_app import celery_app
 from utils.security import SecurityManager
 from utils.file_manager import FileManager
 from utils.db_manager import get_db, init_db
@@ -360,20 +361,9 @@ async def process_youtube(project_id: str, request: YouTubeURLRequest, db: Sessi
         # Update project with the YouTube URL first
         ProjectRepository.update_project(db, project_id, {"youtube_url": request.youtube_url, "status": "processing"})
         
-        # Download and process YouTube video
-        video_data = await video_processor.process_youtube_url(request.youtube_url)
-        
-        # Update project
-        updates = {
-            "video_data": video_data,
-            "status": "uploaded"
-        }
-        
-        updated_project = ProjectRepository.update_project(db, project_id, updates)
-        
-        logger.info(f"YouTube video processed for project: {project_id}")
-        
-        return {"project": updated_project.to_dict()}
+        task = process_youtube_url_task.delay(project_id, request.youtube_url)
+        logger.info(f"Queued YouTube processing task {task.id} for project: {project_id}")
+        return {"task_id": task.id}
     except Exception as e:
         logger.error(f"Error processing YouTube video: {e}")
         # Update project status to error
@@ -409,70 +399,13 @@ async def analyze_video(project_id: str, request: AnalysisPromptRequest, db: Ses
         if not api_key:
             raise HTTPException(status_code=400, detail=f"No API key configured for {provider}")
         
-        # For demo, we'll simulate the analysis
-        clips = await simulate_analysis(updated_project, request.prompt)
-        
-        # Create clips in database
-        for clip_data in clips:
-            clip_dict = {
-                "project_id": project_id,
-                "title": clip_data.title,
-                "description": clip_data.explanation,
-                "start_time": clip_data.start_time,
-                "end_time": clip_data.end_time,
-                "tags": []
-            }
-            ClipRepository.create_clip(db, clip_dict)
-        
-        # Update project status
-        ProjectRepository.update_project(db, project_id, {"status": "completed"})
-        
-        # Get updated project with clips
-        final_project = ProjectRepository.get_project_by_id(db, project_id)
-        logger.info(f"Analysis completed for project: {project_id}")
-        
-        return {"project": final_project.to_dict()}
+        task = analyze_video_task.delay(project_id, request.prompt)
+        logger.info(f"Queued analysis task {task.id} for project: {project_id}")
+        return {"task_id": task.id}
     except Exception as e:
         logger.error(f"Error analyzing video: {e}")
         ProjectRepository.update_project(db, project_id, {"status": "error"})
         raise HTTPException(status_code=500, detail=f"Failed to analyze video: {str(e)}")
-
-async def simulate_analysis(project: Project, prompt: str) -> List[Clip]:
-    """Simulate AI analysis for demo purposes"""
-    # Simulate processing time
-    await asyncio.sleep(2)
-    
-    # Generate mock clips based on prompt
-    clips = []
-    clip_types = {
-        "funny": [("Hilarious reaction", 85), ("Comedy gold moment", 92), ("Unexpected humor", 78)],
-        "engaging": [("Hook moment", 88), ("Peak engagement", 94), ("Attention grabber", 82)],
-        "educational": [("Key insight", 90), ("Learning moment", 87), ("Important concept", 85)],
-        "emotional": [("Touching moment", 89), ("Emotional peak", 93), ("Heartfelt scene", 86)]
-    }
-    
-    # Determine clip type based on prompt
-    clip_type = "engaging"  # default
-    for key in clip_types.keys():
-        if key in prompt.lower():
-            clip_type = key
-            break
-    
-    selected_clips = clip_types[clip_type]
-    
-    for i, (title, score) in enumerate(selected_clips):
-        clip = Clip(
-            id=str(uuid.uuid4()),
-            title=title,
-            start_time=i * 30,  # 30 second intervals
-            end_time=(i * 30) + 15,  # 15 second clips
-            score=score,
-            explanation=f"This clip shows {title.lower()} based on the analysis criteria: {prompt}",
-            created_at=datetime.now().isoformat()
-        )
-        clips.append(clip)
-    
-    return clips
 
 # Clip management endpoints
 @app.put("/api/projects/{project_id}/clips/{clip_id}")
@@ -580,6 +513,13 @@ async def set_api_key(request: APITestRequest, db: Session = Depends(get_db)):
             status_code=500,
             content={"error": "Failed to store API key"}
         )
+
+# Task status endpoint
+@app.get("/api/tasks/{task_id}")
+async def get_task_status(task_id: str):
+    """Fetch Celery task status."""
+    result = celery_app.AsyncResult(task_id)
+    return {"task_id": task_id, "state": result.state, "result": result.result}
 
 if __name__ == "__main__":
     uvicorn.run(
